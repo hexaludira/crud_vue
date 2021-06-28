@@ -17,11 +17,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-for="(article, index) in Articles" :key="index">
+								<tr v-for="(article, index) in articles" :key="index">
 									<td>{{ article.title}}</td>
 									<td>{{ article.content}}</td>
 									<td class="text-center">
-										<router-link :to="{name: 'Articles.edit', params: {id: Articles.id}}" class="btn btn-sm btn-primary mr-1">EDIT</router-link>
+										<router-link :to="{name: 'Articles.edit', params: {id: article.id}}" class="btn btn-sm btn-primary mr-1">EDIT</router-link>
 										<button class="btn btn-sm btn-danger ml-1">DELETE</button>
 									</td>
 								</tr>
@@ -47,7 +47,8 @@
 			//mounted
 			onMounted(() => {
 				//get API from Laravel Backend
-				axios.get('http://laravel.test/api/article')
+				// axios.get('http://laravel.test/api/articles')
+				axios.get('http://10.10.41.246/laravel/public/api/articles')
 				.then(response => {
 					//assign state posts with response data
 					articles.value = response.data.data

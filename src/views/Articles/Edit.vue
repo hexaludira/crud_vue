@@ -61,13 +61,50 @@
 			//mounted
 			onMounted(() => {
 				//get API from laravel backend
-				axios.get('http://10.10.41.246/laravel/public/api/articles/${route.params.id}').then(
-					response => {
-						//assign state
-					}
-				)
+				axios.get('http://10.10.41.246/laravel/public/api/articles/' + route.params.id)
+				.then(response => {
+						//assign state artikel with response data
+						artikel.title = response.data.data.title
+						artikel.content = response.data.data.content
+					}).catch(error => {
+						console.log(error.response.data)
+					})	
 			})
+
+			//method update
+			function update(){
+				let title = artikel.title
+				let content = artikel.content
+
+				axios.put('http://10.10.41.246/laravel/public/api/articles/' + route.params.id, {
+					title : title,
+					content : content
+				}).then(() => {
+						//redirect ke post index
+						router.push({
+							name: 'Articles.index'
+						})
+					}).catch(error => {
+						//assign state validation error
+						validation.value = error.response.data
+					})
+			}
+
+			//return
+			return {
+				artikel,
+				validation,
+				router,
+				//route,
+				update
+			}
 		}
 
 	}
 </script>
+
+<style type="text/css">
+	body {
+		background: lightgray;
+	}
+</style>
